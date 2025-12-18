@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="dark_grey">#1E1E1E</color>
+    <color name="soft_grey">#D9D9D9</color>
+
+    <color name="home_blue">#0820FF</color>
+    <color name="home_brown">#895605</color>
+    <color name="home_purple">#7E06FF</color>
+    <color name="home_lime">#AAFF41</color>
+    <color name="home_orange">#FF9D00</color>
+
+    <color name="search_dark">#35322F</color>
+    <color name="search_green_main">#427702</color> <color name="add_lime">#AAFF41</color>
+    <color name="add_orange_bold">#FFA808</color>
+    <color name="add_orange_soft">#FFC354</color>
+
+    <color name="profile_purple">#9747FF</color>
+    <color name="profile_lavender">#F0D5FF</color>
+    <color name="profile_yellow">#FFC508</color>
+    <color name="profile_green_bold">#14AE5C</color>
+    <color name="profile_yellow_pale">#F6F47F</color>
+    <color name="profile_green_soft">#C3F69A</color>
+
+    <color name="detail_lime_light">#BEF980</color>
+    <color name="detail_green_forest">#388D00</color>
+    <color name="detail_taupe">#B9ADAD</color>
+
+    
+</resources>
