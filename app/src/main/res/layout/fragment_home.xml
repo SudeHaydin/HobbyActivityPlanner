@@ -41,8 +41,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHobilerimTitle"
-            app:listitem="@layout/item_hobby_card" />
+            app:layout_constraintTop_toBottomOf="@id/tvHobilerimTitle" />
 
         <TextView
             android:id="@+id/tvEventsTitle"
@@ -63,8 +62,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvEventsTitle"
-            app:listitem="@layout/item_event_card" />
+            app:layout_constraintTop_toBottomOf="@id/tvEventsTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
