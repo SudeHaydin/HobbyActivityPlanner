@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@android:drawable/ic_menu_view"
         android:title="Ana Sayfa" />
+
     <item
         android:id="@+id/nav_discover"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Keşfet" />
+
     <item
-        android:id="@+id/nav_add"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="Ekle" />
+        android:id="@+id/nav_create"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Oluştur" />
+
     <item
         android:id="@+id/nav_profile"
-        android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="Profil" />
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="Profilim" />
 </menu>

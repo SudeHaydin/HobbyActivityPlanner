@@ -25,7 +25,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return new EventViewHolder(view);
 
     }
-    // EventAdapter.java dosyasının içindeki onBindViewHolder metodunu bul ve bununla değiştir:
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
@@ -35,12 +34,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvDetails.setText(event.getDetails());
         holder.tvStatus.setText(event.getParticipantStatus());
 
-        // TIKLAMA OLAYI (YENİ EKLENEN KISIM)
         holder.itemView.setOnClickListener(v -> {
-            // Tıklanınca Detay Sayfasına git
             android.content.Intent intent = new android.content.Intent(holder.itemView.getContext(), msku.ceng3545.hobbyplanner.activities.EventDetailsActivity.class);
 
-            // Verileri paketle ve gönder
             intent.putExtra("title", event.getTitle());
             intent.putExtra("details", event.getDetails());
             intent.putExtra("status", event.getParticipantStatus());
@@ -60,5 +56,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             tvDetails=itemView.findViewById(R.id.tvEventDetails);
             tvStatus=itemView.findViewById(R.id.tvParticipantStatus);
         }
+    }
+    public void setFilteredList(List<EventModel> filteredList) {
+        this.eventList = filteredList;
+        notifyDataSetChanged();
     }
 }

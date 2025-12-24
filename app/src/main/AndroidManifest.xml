@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HobbyPlanner">
         <activity
+            android:name=".activities.AddEventActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.EventDetailsActivity"
             android:exported="false" />
         <activity

@@ -1,5 +1,6 @@
 package msku.ceng3545.hobbyplanner.fragments;
 
+
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,37 +10,52 @@ import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
+
 import msku.ceng3545.hobbyplanner.R;
+
 import msku.ceng3545.hobbyplanner.adapters.EventAdapter;
+import msku.ceng3545.hobbyplanner.adapters.HobbyAdapter;
 import msku.ceng3545.hobbyplanner.models.EventModel;
+import msku.ceng3545.hobbyplanner.models.HobbyModel;
 
 public class HomeFragment extends Fragment {
 
-    RecyclerView rvEvents;
+    RecyclerView rvHobbies, rvEvents;
+
+    HobbyAdapter hobbyAdapter;
     EventAdapter eventAdapter;
+
+    List<HobbyModel> hobbyList;
     List<EventModel> eventList;
 
     public HomeFragment() {
-        // Boş kurucu metod gerekli
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // XML tasarımını bağlıyoruz (fragment_home.xml)
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // 1. RecyclerView'ı bul
+        rvHobbies = view.findViewById(R.id.rvHobbies);
+        rvHobbies.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        hobbyList = new ArrayList<>();
+        hobbyList.add(new HobbyModel("Yoga", 60));
+        hobbyList.add(new HobbyModel("Resim", 25));
+        hobbyList.add(new HobbyModel("Kitap Okuma", 80));
+        hobbyList.add(new HobbyModel("Gitar", 10));
+
+        hobbyAdapter = new HobbyAdapter(hobbyList);
+        rvHobbies.setAdapter(hobbyAdapter);
+
+
         rvEvents = view.findViewById(R.id.rvEvents);
         rvEvents.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // 2. SAHTE VERİLERİ OLUŞTUR (Mock Data)
         eventList = new ArrayList<>();
-        eventList.add(new EventModel("Bahar Şenliği Konseri", "📍 Kampüs Stadyumu | 📅 15.05.2025", "450 / 1000 Katılımcı"));
-        eventList.add(new EventModel("Python ile Yapay Zeka", "📍 Bilgisayar Müh. Lab | 📅 20.04.2025", "20 / 30 Katılımcı"));
-        eventList.add(new EventModel("Doğa Yürüyüşü", "📍 Belgrad Ormanı | 📅 25.04.2025", "12 / 50 Katılımcı"));
-
-        // 3. Adaptörü hazırla ve bağla
+        eventList.add(new EventModel("Bahar Şenliği", "📍 Kampüs | 📅 15.05.2025", "450 / 1000 Katılımcı", "city"));
+        eventList.add(new EventModel("Yapay Zeka Semineri", "📍 Lab B | 📅 20.04.2025", "20 / 30 Katılımcı", "community"));
+        eventList.add(new EventModel("Doğa Yürüyüşü", "📍 Orman | 📅 25.04.2025", "12 / 50 Katılımcı", "community"));
         eventAdapter = new EventAdapter(eventList);
         rvEvents.setAdapter(eventAdapter);
 
