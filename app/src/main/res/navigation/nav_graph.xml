@@ -7,40 +7,36 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.projeniz.HomeFragment"
+        android:name="msku.ceng3545.hobbyplanner.fragments.HomeFragment"
         android:label="Ana Sayfa"
-        tools:layout="@layout/home">
-        <action
-            android:id="@+id/action_home_to_detail"
-            app:destination="@id/nav_detail" />
+        tools:layout="@layout/fragment_home"> <action
+        android:id="@+id/action_home_to_detail"
+        app:destination="@id/nav_detail" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_discover"
-        android:name="com.example.projeniz.DiscoverFragment"
+        android:name="msku.ceng3545.hobbyplanner.fragments.DiscoverFragment"
         android:label="Keşfet"
-        tools:layout="@layout/discover">
-        <action
-            android:id="@+id/action_discover_to_detail"
-            app:destination="@id/nav_detail" />
+        tools:layout="@layout/fragment_discover"> <action
+        android:id="@+id/action_discover_to_detail"
+        app:destination="@id/nav_detail" />
     </fragment>
 
-    <fragment
+    <activity
         android:id="@+id/nav_add"
-        android:name="com.example.projeniz.CreateEventFragment"
+        android:name="msku.ceng3545.hobbyplanner.activities.AddEventActivity"
         android:label="Etkinlik Oluştur"
-        tools:layout="@layout/create_event" />
+        tools:layout="@layout/activity_add_event" />
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.projeniz.ProfileFragment"
+        android:name="msku.ceng3545.hobbyplanner.fragments.ProfileFragment"
         android:label="Profilim"
-        tools:layout="@layout/profile" />
-
-    <fragment
-        android:id="@+id/nav_detail"
-        android:name="com.example.projeniz.DetailFragment"
-        android:label="Etkinlik Detayı"
-        tools:layout="@layout/event_detail" />
+        tools:layout="@layout/fragment_profile" /> <activity
+    android:id="@+id/nav_detail"
+    android:name="msku.ceng3545.hobbyplanner.activities.EventDetailsActivity"
+    android:label="Etkinlik Detayı"
+    tools:layout="@layout/activity_event_details" />
 
 </navigation>
