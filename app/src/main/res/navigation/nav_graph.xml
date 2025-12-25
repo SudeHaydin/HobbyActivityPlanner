@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.projeniz.HomeFragment"
+        android:label="Ana Sayfa"
+        tools:layout="@layout/home">
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/nav_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_discover"
+        android:name="com.example.projeniz.DiscoverFragment"
+        android:label="Keşfet"
+        tools:layout="@layout/discover">
+        <action
+            android:id="@+id/action_discover_to_detail"
+            app:destination="@id/nav_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_add"
+        android:name="com.example.projeniz.CreateEventFragment"
+        android:label="Etkinlik Oluştur"
+        tools:layout="@layout/create_event" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.projeniz.ProfileFragment"
+        android:label="Profilim"
+        tools:layout="@layout/profile" />
+
+    <fragment
+        android:id="@+id/nav_detail"
+        android:name="com.example.projeniz.DetailFragment"
+        android:label="Etkinlik Detayı"
+        tools:layout="@layout/event_detail" />
+
+</navigation>
