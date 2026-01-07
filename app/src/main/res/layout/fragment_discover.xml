@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="Tümü"
-                android:backgroundTint="#2196F3"
+                android:backgroundTint="#E021DC"
                 android:textColor="#FFFFFF"
                 android:layout_marginEnd="8dp"/>
 
