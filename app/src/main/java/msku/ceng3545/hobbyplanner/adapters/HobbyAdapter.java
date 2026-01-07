@@ -1,13 +1,21 @@
+//SUDE HAYDIN
+
 package msku.ceng3545.hobbyplanner.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
+
 import msku.ceng3545.hobbyplanner.R;
 import msku.ceng3545.hobbyplanner.models.HobbyModel;
 
@@ -31,8 +39,48 @@ public class HobbyAdapter extends RecyclerView.Adapter<HobbyAdapter.HobbyViewHol
         HobbyModel hobby = hobbyList.get(position);
 
         holder.tvName.setText(hobby.getName());
-        holder.progressBar.setProgress(hobby.getProgress());
-        holder.tvPercent.setText("%" + hobby.getProgress());
+        holder.progressBar.setProgress(hobby.getPercent());
+        holder.tvPercent.setText("%" + hobby.getPercent());
+
+        // --- RENK VE İKON AYARLAMA ---
+        String colorCode = "#FFFFFF"; // Varsayılan Beyaz
+
+        switch (hobby.getName()) {
+            case "Yoga":
+                holder.imgIcon.setImageResource(R.drawable.ic_yoga);
+                colorCode = "#E1BEE7"; // Açık Mor (Pastel)
+                break;
+            case "Resim":
+                holder.imgIcon.setImageResource(R.drawable.ic_art);
+                colorCode = "#FFF9C4"; // Açık Sarı (Pastel)
+                break;
+            case "Kitap Okuma":
+                holder.imgIcon.setImageResource(R.drawable.ic_book);
+                colorCode = "#C8E6C9";
+                break;
+            case "Egzersiz":
+                holder.imgIcon.setImageResource(R.drawable.ic_fitness);
+                colorCode = "#BBDEFB";
+                break;
+            default:
+                holder.imgIcon.setImageResource(R.drawable.ic_launcher_foreground);
+                colorCode = "#F5F5F5";
+                break;
+        }
+
+
+        holder.cardView.setCardBackgroundColor(Color.parseColor(colorCode));
+
+
+        holder.itemView.setOnClickListener(v -> {
+            int currentPercent = hobby.getPercent();
+            if (currentPercent < 100) {
+                int newPercent = currentPercent + 10;
+                if (newPercent > 100) newPercent = 100;
+                hobby.setPercent(newPercent);
+                notifyItemChanged(position);
+            }
+        });
     }
 
     @Override
@@ -43,12 +91,18 @@ public class HobbyAdapter extends RecyclerView.Adapter<HobbyAdapter.HobbyViewHol
     public static class HobbyViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvPercent;
         ProgressBar progressBar;
+        ImageView imgIcon;
+        CardView cardView; // KARTI TANIMLADIK
 
         public HobbyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvHobbyName);
-            progressBar = itemView.findViewById(R.id.pbHobbyProgress);
-            tvPercent = itemView.findViewById(R.id.tvProgressPercent);
+            progressBar = itemView.findViewById(R.id.progressBarHobby);
+            tvPercent = itemView.findViewById(R.id.tvProgressText);
+            imgIcon = itemView.findViewById(R.id.imgHobbyIcon);
+
+
+            cardView = itemView.findViewById(R.id.cardViewHobby);
         }
     }
 }

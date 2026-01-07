@@ -12,13 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HobbyPlanner">
         <activity
-            android:name=".activities.AddEventActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.EventDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.AddEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.EventDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

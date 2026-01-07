@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
         hobbyList.add(new HobbyModel("Yoga", 60));
         hobbyList.add(new HobbyModel("Resim", 25));
         hobbyList.add(new HobbyModel("Kitap Okuma", 80));
-        hobbyList.add(new HobbyModel("Gitar", 10));
+        hobbyList.add(new HobbyModel("Egzersiz", 10));
 
         hobbyAdapter = new HobbyAdapter(hobbyList);
         rvHobbies.setAdapter(hobbyAdapter);

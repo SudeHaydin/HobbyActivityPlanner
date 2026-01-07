@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "706814734980",
+    "project_id": "hobbyplanner-fca94",
+    "storage_bucket": "hobbyplanner-fca94.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706814734980:android:5adf9e0b4294c8bf3108d1",
+        "android_client_info": {
+          "package_name": "msku.ceng3545.hobbyplanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-Lmy8uvTb-eE6nBI31dCU51zyXCnBoOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
