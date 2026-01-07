@@ -1,5 +1,5 @@
 package msku.ceng3545.hobbyplanner;
-
+//SUDE HAYDIN
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -24,6 +24,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Arka planda ağır bir işlem yapılıyormuş gibi 2 saniye bekletiyoruz
+                    Thread.sleep(2000);
+
+                    // İşlem bitince Ana Thread'e  haber veriyoruz
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
