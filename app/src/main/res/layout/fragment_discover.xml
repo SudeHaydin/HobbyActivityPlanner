@@ -18,6 +18,61 @@
         android:padding="10dp"
         android:layout_marginBottom="10dp"/>
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCatAll"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Tümü"
+                android:backgroundTint="#2196F3"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnCatSport"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Spor"
+                android:backgroundTint="#CCCCCC"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnCatArt"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Sanat"
+                android:backgroundTint="#CCCCCC"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnCatTech"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Teknoloji"
+                android:backgroundTint="#CCCCCC"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnCatMusic"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Müzik"
+                android:backgroundTint="#CCCCCC"
+                android:layout_marginEnd="8dp"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDiscover"
         android:layout_width="match_parent"

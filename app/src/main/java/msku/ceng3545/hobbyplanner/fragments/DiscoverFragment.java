@@ -1,15 +1,15 @@
 package msku.ceng3545.hobbyplanner.fragments;
-//MEHMET EKREM ERKAN
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,85 +28,91 @@ public class DiscoverFragment extends Fragment {
 
     RecyclerView rvDiscover;
     EventAdapter eventAdapter;
-    List<EventModel> fullList; // Firebase'den gelen tüm liste
+    List<EventModel> fullList; // Orijinal tam liste
     EditText etSearch;
+
+    // Kategori Butonları
+    Button btnCatAll, btnCatSport, btnCatArt, btnCatTech, btnCatMusic;
 
     public DiscoverFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
 
+        // Tanımlamalar
         etSearch = view.findViewById(R.id.etSearch);
         rvDiscover = view.findViewById(R.id.rvDiscover);
-        rvDiscover.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        btnCatAll = view.findViewById(R.id.btnCatAll);
+        btnCatSport = view.findViewById(R.id.btnCatSport);
+        btnCatArt = view.findViewById(R.id.btnCatArt);
+        btnCatTech = view.findViewById(R.id.btnCatTech);
+        btnCatMusic = view.findViewById(R.id.btnCatMusic);
+
+        rvDiscover.setLayoutManager(new LinearLayoutManager(getContext()));
         fullList = new ArrayList<>();
-        // Adaptöre başlangıçta boş liste veriyoruz
         eventAdapter = new EventAdapter(fullList);
         rvDiscover.setAdapter(eventAdapter);
 
-        // ARAMA FONKSİYONU
+        // 1. Tıklama Olayları (Filtreleme)
+        btnCatAll.setOnClickListener(v -> filterCategory("Tümü", btnCatAll));
+        btnCatSport.setOnClickListener(v -> filterCategory("Spor", btnCatSport));
+        btnCatArt.setOnClickListener(v -> filterCategory("Sanat", btnCatArt));
+        btnCatTech.setOnClickListener(v -> filterCategory("Teknoloji", btnCatTech));
+        btnCatMusic.setOnClickListener(v -> filterCategory("Müzik", btnCatMusic));
+
+        // 2. Arama Kutusu Mantığı
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
             @Override
             public void afterTextChanged(Editable s) {
-                filter(s.toString());
+                searchFilter(s.toString());
             }
         });
 
-        // FIREBASE'DEN VERİLERİ ÇEK
-        fetchEventsFromFirebase();
+        // NOT: Veri çekmeyi onResume içine koyduk, buradaki fetch'i silebiliriz veya kalabilir.
+        // Ama en garantisi onResume'dur.
 
         return view;
     }
 
-    private void fetchEventsFromFirebase() {
-        FirebaseFirestore.getInstance().collection("events")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    fullList.clear();
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-
-                        // Verileri güvenli şekilde çek
-                        String title = document.getString("title");
-                        String details = document.getString("details");
-                        String category = document.getString("category");
-
-                        Long currentL = document.getLong("current");
-                        Long maxL = document.getLong("max");
-                        int current = (currentL != null) ? currentL.intValue() : 0;
-                        int max = (maxL != null) ? maxL.intValue() : 0;
-
-                        EventModel model = new EventModel(
-                                title != null ? title : "",
-                                details != null ? details : "",
-                                category != null ? category : "city",
-                                current,
-                                max
-                        );
-
-                        // ID ATAMASI (Çökmemesi için en önemli yer)
-                        model.setDocId(document.getId());
-
-                        fullList.add(model);
-                    }
-                    // Veri geldi, listeyi güncelle
-                    eventAdapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Veri alınamadı", Toast.LENGTH_SHORT).show();
-                });
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Sayfaya her geri dönüldüğünde (veya ilk açılışta) verileri çeker
+        fetchEventsFromFirebase();
     }
 
-    private void filter(String text) {
+    // --- FİLTRELEME İŞİ BURADA YAPILIR (Senin karıştırdığın yer burasıydı) ---
+    private void filterCategory(String category, Button selectedBtn) {
+        // Görsel efekt: Seçili butonu Mavi yap
+        resetButtonColors();
+        selectedBtn.setBackgroundColor(Color.parseColor("#2196F3"));
+        selectedBtn.setTextColor(Color.WHITE);
+
+        List<EventModel> filteredList = new ArrayList<>();
+
+        if (category.equals("Tümü")) {
+            filteredList.addAll(fullList);
+        } else {
+            for (EventModel item : fullList) {
+                // Güvenli Kategori Kontrolü (Boşlukları silip kontrol eder)
+                if (item.getCategory() != null &&
+                        item.getCategory().trim().equalsIgnoreCase(category.trim())) {
+                    filteredList.add(item);
+                }
+            }
+        }
+        eventAdapter.setFilteredList(filteredList);
+    }
+
+    private void searchFilter(String text) {
         List<EventModel> filteredList = new ArrayList<>();
         for (EventModel item : fullList) {
             if (item.getTitle().toLowerCase().contains(text.toLowerCase())) {
@@ -114,5 +120,54 @@ public class DiscoverFragment extends Fragment {
             }
         }
         eventAdapter.setFilteredList(filteredList);
+    }
+
+    // --- VERİ ÇEKME İŞİ BURADA YAPILIR (Burada if-filter olmaz) ---
+    private void fetchEventsFromFirebase() {
+        FirebaseFirestore.getInstance().collection("events")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    fullList.clear();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        String title = document.getString("title");
+                        String details = document.getString("details");
+
+                        // Kategoriyi al (Boşsa varsayılan ata)
+                        String rawCat = document.getString("category");
+                        String category = (rawCat != null) ? rawCat : "community";
+
+                        Long currentL = document.getLong("current");
+                        Long maxL = document.getLong("max");
+                        int current = (currentL != null) ? currentL.intValue() : 0;
+                        int max = (maxL != null) ? maxL.intValue() : 0;
+
+                        EventModel model = new EventModel(title, details, category, current, max);
+                        model.setDocId(document.getId());
+                        fullList.add(model);
+                    }
+                    // Veri geldi, adaptörü uyar
+                    eventAdapter.notifyDataSetChanged();
+
+                    // Veriler yenilenince buton rengini sıfırla ("Tümü" seçili olsun)
+                    // İstersen burayı açabilirsin:
+                    // resetButtonColors();
+                    // btnCatAll.setBackgroundColor(Color.parseColor("#2196F3"));
+                    // btnCatAll.setTextColor(Color.WHITE);
+                });
+    }
+
+    private void resetButtonColors() {
+        int grayColor = Color.parseColor("#CCCCCC");
+        btnCatAll.setBackgroundColor(grayColor);
+        btnCatSport.setBackgroundColor(grayColor);
+        btnCatArt.setBackgroundColor(grayColor);
+        btnCatTech.setBackgroundColor(grayColor);
+        btnCatMusic.setBackgroundColor(grayColor);
+
+        btnCatAll.setTextColor(Color.BLACK);
+        btnCatSport.setTextColor(Color.BLACK);
+        btnCatArt.setTextColor(Color.BLACK);
+        btnCatTech.setTextColor(Color.BLACK);
+        btnCatMusic.setTextColor(Color.BLACK);
     }
 }
