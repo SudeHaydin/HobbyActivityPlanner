@@ -48,11 +48,11 @@ public class HobbyAdapter extends RecyclerView.Adapter<HobbyAdapter.HobbyViewHol
         switch (hobby.getName()) {
             case "Yoga":
                 holder.imgIcon.setImageResource(R.drawable.ic_yoga);
-                colorCode = "#E1BEE7"; // Açık Mor (Pastel)
+                colorCode = "#E1BEE7";
                 break;
             case "Resim":
                 holder.imgIcon.setImageResource(R.drawable.ic_art);
-                colorCode = "#FFF9C4"; // Açık Sarı (Pastel)
+                colorCode = "#FFF9C4";
                 break;
             case "Kitap Okuma":
                 holder.imgIcon.setImageResource(R.drawable.ic_book);
@@ -92,7 +92,7 @@ public class HobbyAdapter extends RecyclerView.Adapter<HobbyAdapter.HobbyViewHol
         TextView tvName, tvPercent;
         ProgressBar progressBar;
         ImageView imgIcon;
-        CardView cardView; // KARTI TANIMLADIK
+        CardView cardView;
 
         public HobbyViewHolder(@NonNull View itemView) {
             super(itemView);

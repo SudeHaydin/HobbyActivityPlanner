@@ -1,5 +1,5 @@
 package msku.ceng3545.hobbyplanner.models;
-
+//MEHMET EKREM ERKAN
 public class EventModel {
     private String title;
     private String details;

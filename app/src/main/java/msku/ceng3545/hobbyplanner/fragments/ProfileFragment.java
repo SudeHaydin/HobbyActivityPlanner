@@ -1,5 +1,5 @@
 package msku.ceng3545.hobbyplanner.fragments;
-
+//SUDE HAYDIN
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;

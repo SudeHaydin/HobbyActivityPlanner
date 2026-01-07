@@ -1,5 +1,5 @@
+//MEHMET EKREM ERKAN
 package msku.ceng3545.hobbyplanner.activities;
-
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
