@@ -3,21 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="15dp"
-    app:cardElevation="4dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    android:backgroundTint="#FFFFFF">
 
     <LinearLayout
-        android:id="@+id/event_card_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/kategori_doga"> <ImageView
-        android:id="@+id/ivEventImage"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:scaleType="centerCrop"
-        android:src="@android:drawable/ic_menu_gallery" />
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:scaleType="centerCrop"
+            android:background="#EEEEEE" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,33 +27,56 @@
             android:padding="12dp">
 
             <TextView
-                android:id="@+id/tvEventTitle"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvEventName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Boyama ve Piknik"
+                android:text="Etkinlik Başlığı"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/black" />
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/tvEventDetails"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📍 Okul Kampüsü | 📅 03.04.2025"
+                android:text="📍 Konum | 📅 Tarih"
                 android:textSize="14sp"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/dark_grey" />
+                android:textColor="#666666"
+                android:layout_marginTop="4dp" />
 
-            <TextView
-                android:id="@+id/tvParticipantStatus"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="67 / 700 Katılımcı"
-                android:textSize="12sp"
-                android:textStyle="italic"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/search_dark" />
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:id="@+id/tvEventStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10 / 50"
+                    android:textStyle="bold"
+                    android:textColor="#E91E63"
+                    android:background="#FCE4EC"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KATIL"
+                    android:textColor="#2E7D32"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

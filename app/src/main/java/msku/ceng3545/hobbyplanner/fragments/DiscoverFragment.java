@@ -1,17 +1,21 @@
 package msku.ceng3545.hobbyplanner.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,39 +26,31 @@ import msku.ceng3545.hobbyplanner.models.EventModel;
 
 public class DiscoverFragment extends Fragment {
 
-    RecyclerView rvDiscoverEvents;
+    RecyclerView rvDiscover;
     EventAdapter eventAdapter;
-    List<EventModel> fullList;
+    List<EventModel> fullList; // Firebase'den gelen tüm liste
+    EditText etSearch;
 
-
-    EditText searchBar;
-    TextView tabAll, tabCity, tabCommunity;
-
-    public DiscoverFragment() { }
+    public DiscoverFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
 
-        rvDiscoverEvents = view.findViewById(R.id.rvDiscoverEvents);
-        searchBar = view.findViewById(R.id.etSearch);
-        tabAll = view.findViewById(R.id.tabAll);
-        tabCity = view.findViewById(R.id.tabCity);
-        tabCommunity = view.findViewById(R.id.tabCommunity);
-
-        rvDiscoverEvents.setLayoutManager(new LinearLayoutManager(getContext()));
+        etSearch = view.findViewById(R.id.etSearch);
+        rvDiscover = view.findViewById(R.id.rvDiscover);
+        rvDiscover.setLayoutManager(new LinearLayoutManager(getContext()));
 
         fullList = new ArrayList<>();
-        fullList.add(new EventModel("Müzik Festivali", "🎶 Şehir Parkı", "67/700", "city"));
-        fullList.add(new EventModel("Açık Hava Sineması", "🎬 Kampüs", "150 Katılımcı", "city"));
-        fullList.add(new EventModel("Seramik Atölyesi", "🎨 Sanat Evi", "12 Katılımcı", "community"));
-        fullList.add(new EventModel("Kodlama Kampı", "💻 Lab 1", "30 Katılımcı", "community"));
-
+        // Adaptöre başlangıçta boş liste veriyoruz
         eventAdapter = new EventAdapter(fullList);
-        rvDiscoverEvents.setAdapter(eventAdapter);
+        rvDiscover.setAdapter(eventAdapter);
 
-        searchBar.addTextChangedListener(new TextWatcher() {
+        // ARAMA FONKSİYONU
+        etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
@@ -66,22 +62,48 @@ public class DiscoverFragment extends Fragment {
             }
         });
 
-        tabAll.setOnClickListener(v -> {
-            updateTabs(tabAll);
-            eventAdapter.setFilteredList(fullList);
-        });
-
-        tabCity.setOnClickListener(v -> {
-            updateTabs(tabCity);
-            filterByCategory("city");
-        });
-
-        tabCommunity.setOnClickListener(v -> {
-            updateTabs(tabCommunity);
-            filterByCategory("community");
-        });
+        // FIREBASE'DEN VERİLERİ ÇEK
+        fetchEventsFromFirebase();
 
         return view;
+    }
+
+    private void fetchEventsFromFirebase() {
+        FirebaseFirestore.getInstance().collection("events")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    fullList.clear();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+
+                        // Verileri güvenli şekilde çek
+                        String title = document.getString("title");
+                        String details = document.getString("details");
+                        String category = document.getString("category");
+
+                        Long currentL = document.getLong("current");
+                        Long maxL = document.getLong("max");
+                        int current = (currentL != null) ? currentL.intValue() : 0;
+                        int max = (maxL != null) ? maxL.intValue() : 0;
+
+                        EventModel model = new EventModel(
+                                title != null ? title : "",
+                                details != null ? details : "",
+                                category != null ? category : "city",
+                                current,
+                                max
+                        );
+
+                        // ID ATAMASI (Çökmemesi için en önemli yer)
+                        model.setDocId(document.getId());
+
+                        fullList.add(model);
+                    }
+                    // Veri geldi, listeyi güncelle
+                    eventAdapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Veri alınamadı", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void filter(String text) {
@@ -92,23 +114,5 @@ public class DiscoverFragment extends Fragment {
             }
         }
         eventAdapter.setFilteredList(filteredList);
-    }
-
-    private void filterByCategory(String category) {
-        List<EventModel> filteredList = new ArrayList<>();
-        for (EventModel item : fullList) {
-            if (item.getCategory().equals(category)) {
-                filteredList.add(item);
-            }
-        }
-        eventAdapter.setFilteredList(filteredList);
-    }
-
-    private void updateTabs(TextView selectedTab) {
-        tabAll.setTextColor(Color.GRAY);
-        tabCity.setTextColor(Color.GRAY);
-        tabCommunity.setTextColor(Color.GRAY);
-
-        selectedTab.setTextColor(Color.BLACK);
     }
 }

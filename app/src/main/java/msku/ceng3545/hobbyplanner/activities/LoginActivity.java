@@ -1,8 +1,10 @@
-//SUDE HAYDIN
+// SUDE HAYDIN
 
 package msku.ceng3545.hobbyplanner.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -34,15 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         mAuth = FirebaseAuth.getInstance();
-
 
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
         signupText = findViewById(R.id.signupText);
-
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(email, password);
             }
         });
-
 
         signupText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +70,13 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+
+                        // --- YENİ EKLENEN KISIM BAŞLANGIÇ ---
+                        // Giriş başarılı olunca maili telefona kaydediyoruz ki Profilde kullanalım
+                        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                        sharedPref.edit().putString("userEmail", email).apply();
+                        // --- YENİ EKLENEN KISIM BİTİŞ ---
+
                         Toast.makeText(LoginActivity.this, "Giriş Başarılı!", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();

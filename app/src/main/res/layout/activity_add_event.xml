@@ -9,66 +9,49 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Oluştur"
-        android:textSize="28sp"
+        android:text="Yeni Etkinlik Oluştur"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:layout_marginBottom="32dp"/>
+        android:textColor="#2E7D32"
+        android:layout_marginBottom="24dp"/>
 
     <EditText
         android:id="@+id/etEventName"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Etkinlik Adı"
-        android:paddingStart="12dp"
+        android:layout_height="55dp"
+        android:hint="Etkinlik Adı (Örn: Bahar Şenliği)"
+        android:padding="12dp"
         android:background="@android:drawable/edit_text"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="16dp"/>
 
-        android:textColor="#000000"       android:textColorHint="#666666"/> <EditText
-    android:id="@+id/etEventDesc"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:hint="Etkinlik Açıklaması"
-    android:paddingStart="12dp"
-    android:background="@android:drawable/edit_text"
-    android:layout_marginBottom="16dp"
+    <EditText
+        android:id="@+id/etEventDesc"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:hint="Açıklama ve Detaylar"
+        android:gravity="top|start"
+        android:padding="12dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginBottom="16dp"/>
 
-    android:textColor="#000000"       android:textColorHint="#666666"/> <EditText
-    android:id="@+id/etEventDate"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:hint="Etkinlik Tarihi"
-    android:paddingStart="12dp"
-    android:inputType="date"
-    android:background="@android:drawable/edit_text"
-    android:layout_marginBottom="24dp"
-
-    android:textColor="#000000"       android:textColorHint="#666666"/>
-
+    <EditText
+        android:id="@+id/etEventDate"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Tarih (Örn: 25.05.2025)"
+        android:padding="12dp"
+        android:inputType="date"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginBottom="32dp"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:text="📍 Konum ekle"
-        android:backgroundTint="#DCEDC8"
-        android:textColor="#33691E"
-        android:textSize="12sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="50dp"/>
-
-    <LinearLayout
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|center_horizontal">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnCreateFinal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_input_add"
-            android:backgroundTint="#8BC34A"
-            android:layout_marginBottom="24dp" />
-
-    </LinearLayout>
+        android:layout_height="60dp"
+        android:text="KAYDET VE OLUŞTUR"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#2E7D32"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>
