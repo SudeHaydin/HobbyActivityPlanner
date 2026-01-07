@@ -34,6 +34,20 @@
         android:background="@android:drawable/edit_text"
         android:layout_marginBottom="16dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kategori Seçin:"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"/>
+
+    <Spinner
+        android:id="@+id/spCategory"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:layout_marginBottom="16dp"/>
+
     <EditText
         android:id="@+id/etEventDate"
         android:layout_width="match_parent"

@@ -3,8 +3,10 @@ package msku.ceng3545.hobbyplanner.activities;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +21,9 @@ import msku.ceng3545.hobbyplanner.R;
 public class AddEventActivity extends AppCompatActivity {
 
     EditText etEventName, etEventDesc, etEventDate;
+    Spinner spCategory; // Yeni eklediğimiz Spinner
     Button btnSave;
 
-    // Firebase Veritabanı
     FirebaseFirestore db;
 
     @Override
@@ -33,19 +35,21 @@ public class AddEventActivity extends AppCompatActivity {
         etEventName = findViewById(R.id.etEventName);
         etEventDesc = findViewById(R.id.etEventDesc);
         etEventDate = findViewById(R.id.etEventDate);
-
+        spCategory = findViewById(R.id.spCategory); // Spinner'ı bağladık
         btnSave = findViewById(R.id.btnSave);
 
-        // 2. Firebase'i başlat
         db = FirebaseFirestore.getInstance();
 
-        // 3. Butona tıklayınca ne olsun?
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveToFirebase();
-            }
-        });
+        // --- SPINNER'I DOLDURMA ---
+        // Kategorilerimiz (Keşfet sayfasındaki butonlarla AYNI olmalı)
+        String[] categories = {"Genel", "Spor", "Sanat", "Teknoloji", "Müzik"};
+
+        // Adaptör ile listeyi Spinner'a bağla
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        spCategory.setAdapter(adapter);
+        // -------------------------
+
+        btnSave.setOnClickListener(v -> saveToFirebase());
     }
 
     private void saveToFirebase() {
@@ -53,45 +57,40 @@ public class AddEventActivity extends AppCompatActivity {
         String desc = etEventDesc.getText().toString().trim();
         String date = etEventDate.getText().toString().trim();
 
-        // Boş bırakılmasın kontrolü
+        // Spinner'dan seçilen kategoriyi al
+        String selectedCategory = spCategory.getSelectedItem().toString();
+
         if (TextUtils.isEmpty(title) || TextUtils.isEmpty(desc) || TextUtils.isEmpty(date)) {
             Toast.makeText(this, "Lütfen tüm alanları doldurun!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // --- VERİ PAKETLEME ---
+        // Veri Paketleme
         Map<String, Object> event = new HashMap<>();
+        event.put("title", title);
+        event.put("details", "📅 " + date + " | " + desc);
 
-        event.put("title", title); // Başlık
-        event.put("details", "📅 " + date + " | " + desc); // Detay
-        event.put("category", "community"); // Kategori
+        // ARTIK "community" YERİNE SEÇİLEN KATEGORİYİ KAYDEDİYORUZ
+        event.put("category", selectedCategory);
 
-        // --- SAYISAL DEĞERLER ---
-        event.put("current", 0);  // Başlangıç katılımcı sayısı
-        event.put("max", 50);     // Kontenjan
+        event.put("current", 0);
+        event.put("max", 50);
 
-        // --- FIREBASE'E GÖNDERME ---
         db.collection("events")
                 .add(event)
                 .addOnSuccessListener(documentReference -> {
-
-                    // --- BAŞARILI OLURSA BURASI ÇALIŞIR ---
-
-                    // 1. Yeni oluşan ID'yi al
                     String newEventId = documentReference.getId();
 
-                    // 2. Telefona "Bunu ben oluşturdum" diye kaydet (CreatedEvents)
-                    android.content.SharedPreferences sharedPref = getSharedPreferences("CreatedEvents", MODE_PRIVATE);
-                    android.content.SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean(newEventId, true);
-                    editor.apply();
+                    // Telefona "Bunu ben oluşturdum" diye kaydet
+                    getSharedPreferences("CreatedEvents", MODE_PRIVATE)
+                            .edit()
+                            .putBoolean(newEventId, true)
+                            .apply();
 
-                    // 3. Bilgi ver ve çık
                     Toast.makeText(AddEventActivity.this, "Etkinlik Oluşturuldu! 🎉", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // --- HATA OLURSA BURASI ÇALIŞIR ---
                     Toast.makeText(AddEventActivity.this, "Hata: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }

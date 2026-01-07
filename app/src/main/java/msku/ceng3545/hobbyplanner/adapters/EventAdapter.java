@@ -18,24 +18,24 @@ import msku.ceng3545.hobbyplanner.models.EventModel;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
 
-    // Kırmızı yanan 'eventList' hatası için bu tanımlama şart:
+    // Listemiz
     private List<EventModel> eventList;
 
-    // Kurucu Metot (Constructor)
+    // Constructor (Kurucu)
     public EventAdapter(List<EventModel> eventList) {
         this.eventList = eventList;
     }
 
-    // Arama yaparken listeyi güncellemek için (Sorduğun diğer hata buydu)
+    // --- İŞTE BU EKSİKTİ! BU METODU EKLEYİNCE KIRMIZI HATALAR GİDECEK ---
     public void setFilteredList(List<EventModel> filteredList) {
         this.eventList = filteredList;
         notifyDataSetChanged();
     }
+    // ---------------------------------------------------------------------
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Tasarımı bağla (list_item_event.xml veya benzeri bir isim olmalı)
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event_card, parent, false);
         return new ViewHolder(view);
@@ -47,12 +47,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         holder.tvTitle.setText(event.getTitle());
         holder.tvDetails.setText(event.getDetails());
-
-        // Sayıları modelden alıp birleştiriyoruz: "10 / 50"
         holder.tvStatus.setText(event.getStatusText());
-
-        // Tıklama Olayı (Senin yazdığın Integer mantığı)
-        // EventAdapter.java -> onBindViewHolder içi
 
         holder.itemView.setOnClickListener(v -> {
             // 1. Önce telefona bak: Zaten katılmış mı?
@@ -77,15 +72,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         .update("current", newCurrent)
                         .addOnSuccessListener(aVoid -> {
 
-                            // A) Ekranda güncel veriyi göster
+                            // Ekranda güncel veriyi göster
                             event.setCurrent(newCurrent);
                             holder.tvStatus.setText(event.getStatusText());
 
-                            // --- B) TELEFONA KAYDET (Burası Eksikti!) ---
+                            // Telefona Kaydet
                             android.content.SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putBoolean(event.getDocId(), true); // "JoinedEvents" dosyasına kaydet
+                            editor.putBoolean(event.getDocId(), true);
                             editor.apply();
-                            // -------------------------------------------
 
                             Toast.makeText(holder.itemView.getContext(), "Katıldınız! (+1)", Toast.LENGTH_SHORT).show();
                         })
@@ -103,19 +97,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         return eventList.size();
     }
 
-    // --- ViewHolder Sınıfı (Kırmızı yanan tvTitle, tvDetails hataları burası eksik olduğu içindi) ---
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         TextView tvTitle, tvDetails, tvStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            // XML'deki ID'lerinle buradakilerin eşleşmesi lazım!
-            // Eğer XML'de farklı isim verdiysen buraları düzeltmen gerekir.
-            tvTitle = itemView.findViewById(R.id.tvEventName);
-            tvDetails = itemView.findViewById(R.id.tvEventDetails);
-            tvStatus = itemView.findViewById(R.id.tvEventStatus);
+            tvTitle = itemView.findViewById(R.id.tvEventName);     // XML'deki ID ile aynı olmalı
+            tvDetails = itemView.findViewById(R.id.tvEventDetails); // XML'deki ID ile aynı olmalı
+            tvStatus = itemView.findViewById(R.id.tvEventStatus);   // XML'deki ID ile aynı olmalı
         }
     }
 }
